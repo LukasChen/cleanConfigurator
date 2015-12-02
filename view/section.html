@@ -1,0 +1,92 @@
+<div class="col-sm-2">
+  <img
+  ng-if="cart.products[Chapter.name][Section.name].lastclickedImg" ng-src="{{cart.products[Chapter.name][Section.name].lastclickedImg}}"
+  alt="Thumnbail image" />
+</div>
+
+<div class="col-sm-10">
+  <h3 class="sub-sectionToggle" ng-click="SectionCollapse =! SectionCollapse">
+    <i ng-class="{'fa-rotate-90':SectionCollapse}" class="fa fa-play"></i>
+    {{::Section.name}}
+  </h3>
+
+  <div bn-collapse="SectionCollapse">
+    <h4 class="fake-link block-link sub-sectionToggle"
+      ng-click="ChoiceCollapse =! ChoiceCollapse"><i class="fa fa-play"
+      ng-class="{'fa-rotate-90':ChoiceCollapse}"></i>
+      Your Choice
+    </h4>
+
+    <div bn-collapse="ChoiceCollapse">
+      <div ng-repeat="choice in Section.yourChoice">
+        <label>
+            <input
+            button-trigger
+            class="normal-radio" type="radio"
+            ng-init="initProduct(choice,Section,Chapter)"
+            ng-click="radioClick(choice,Section,Chapter)"
+            id="{{choice.id}}"
+            name="{{Chapter.name + Section.name}}">
+            <!--Button-->
+            <span type="button"></span>
+            <!--button text and price-->
+            <span style="padding-right:10px;">{{::choice.name}}
+              <span ng-if="choice.value!= 0"> - ${{::choice.value}}</span>
+            </span>
+            <!--button tag-->
+            <span style="color:#bbb;">{{::choice.tag}}</span>
+        </label>
+      </div>
+
+      <div>
+          <label>
+              <input button-trigger type="radio" ng-init="choice.name = 'None';choice.value = 0"
+               ng-click="radioClick(choice,Section,Chapter,sectionIndex,chapterIndex,
+               Chapter.name + Section.name)"
+               class="None" name="{{Chapter.name + Section.name}}">
+              <span type="button"></span><span>None</span>
+            </label>
+      </div>
+
+
+    </div>
+
+    <h4 class="fake-link block-link sub-sectionToggle"
+    ng-click="AdviceCollapse =! AdviceCollapse">
+    <i class="fa fa-play"
+    ng-class="{'fa-rotate-90':AdviceCollapse}"></i>
+    Advice</h4>
+
+    <div bn-collapse="AdviceCollapse">
+      <div ng-repeat="Advice in Section.Advice">
+        <h4>{{::Advice.heading}}</h4>
+        <p ng-bind-html="::Advice.content"></p>
+      </div>
+    </div>
+
+    <h4 class="fake-link block-link sub-sectionToggle"
+    ng-click="GalleryCollapse =! GalleryCollapse">
+    <i class="fa fa-play"
+    ng-class="{'fa-rotate-90':GalleryCollapse}"></i>
+    Gallery
+    </h4>
+
+    <div bn-collapse="GalleryCollapse">
+      <uib-carousel interval="0">
+        <uib-slide ng-repeat="gallery in Section.Gallery">
+          <img ng-src="{{::gallery.image}}" alt="" />
+          <div class="carousel-caption">
+            <h4>{{::galery.title}}</h4>
+            <p>{{::gallery.description}}</p>
+          </div>
+        </uib-slide>
+      </uib-carousel>
+    </div>
+
+  </div>
+</div>
+
+<!--A clearfix so that hr work normaly-->
+<div class="clearfix"></div>
+
+<hr>

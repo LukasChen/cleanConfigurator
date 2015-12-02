@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html ng-app="configApp">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Configurator</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/screen.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript">
+      angular.module('configApp',['ngAnimate','ngSanitize','Collapse','ui.bootstrap']);
+    </script>
+  </head>
+  <body ng-controller="AppController">
+    <navbar></navbar>
+
+    <jumbotron></jumbotron>
+
+    <div class="section">
+
+      <div class="container">
+
+        <div class="row">
+            <div class="col-md-8 col-lg-9">
+              <h1>V²Configuration</h1>
+
+              <chapter ng-repeat="Chapter in data"
+              class="panel panel-default {{Chapter.class}}"
+              ng-init="chapterIndex = $index">
+
+                <div ng-click="ChapterCollapse =! ChapterCollapse"
+                class="panel-heading con-fig-header">
+
+                  <h2><i ng-class="{'fa-rotate-90':ChapterCollapse}" class="fa fa-play"></i> {{::Chapter.name}}</h2>
+
+                </div>
+
+                <div bn-collapse="ChapterCollapse" padding="15px"
+                class="panel-body">
+
+                  <section
+                  ng-repeat="Section in Chapter.data"
+                  ng-init="sectionIndex = $index;"></section>
+
+                </div>
+
+              </chapter>
+
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <div
+              class="collapse-summary"
+              ng-repeat="(Chapter,Cvalue) in cart.products"
+              ng-if="Chapter != '1. Wizard'">
+
+                <h4
+                class="collapse-summary-heading fake-link"
+                ng-click="summaryCollapse =! summaryCollapse">
+                <i class="fa fa-play" ng-class="{'fa-rotate-90': summaryCollapse}"></i> {{Chapter}}
+                <span class="pull-right">{{Cvalue.cost | currency}}</span></h4>
+
+
+                <div bn-collapse="summaryCollapse">
+                  <div ng-repeat="(Section,Svalue) in Cvalue" class="clearfix"
+                  ng-if="Svalue.lastclicked != null && Svalue.lastclicked != 'None'">
+                    <p style="margin:0;">{{Svalue.lastclicked}}
+
+                    <span class="pull-right"
+                    ng-if="Svalue.cost != 0">
+                    {{Svalue.cost | currency}}</span></p>
+
+                  </div>
+                </div>
+              </div>
+              <p>{{cart.products.cost | currency}}</p>
+            </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  <script type="text/javascript" src="js/angular-sanitize.min.js"></script>
+  <script type="text/javascript" src="js/angular-animate.min.js"></script>
+  <script type="text/javascript" src="js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+  <script type="text/javascript" src="controller/AppController.js"></script>
+  <script type="text/javascript" src="directive/template.js"></script>
+  <script type="text/javascript" src="directive/Collapse.js"></script>
+  <script type="text/javascript" src="directive/section.js"></script>
+  </body>
+</html>
